@@ -7,26 +7,84 @@
     "demo_url": "https://ivy-homes-assignment.vercel.app/"
   },
   "answers": {
-    "total_listing_records": 0,
+    "total_listing_records":3800,
     "unique_properties": 0,
-    "active_listings": 0,
-    "corrupt_listing_ids": [],
-    "total_monthly_rent": 0,
+    "active_listings": 2998,
+    "corrupt_listing_ids": ["100-3000174", "100-3000236", "100-3000608", "100-3001067", "100-3001543",
+  "100-3001548", "100-3002344", "100-3003022", "DWE-3000235", "DWE-3000299",
+  "DWE-3001307", "DWE-3001849", "DWE-3003186", "MAG-3000932", "MAG-3001263",
+  "MAG-3001979", "MAG-3001986", "SQU-3000419", "SQU-3000591", "SQU-3001698",
+  "ZER-3000380"],
+    "total_monthly_rent": 5773300,
     "avg_price_per_sqft_2bhk": 0.0,
-    "costliest_project": { "project_id": "", "price_max_inr": 0 },
+    "costliest_project": { "project_id": "P30394", "price_max_inr": 99.9 },
     "listings_last_7_days": 0,
     "fake_listing_ids": [],
-    "projects_with_wrong_listing_count": 0
+    "projects_with_wrong_listing_count": 95
   },
   "findings": [
     {
-      "endpoint": "",
-      "category": "",
-      "documented": "",
-      "actual": "",
-      "how_found": "",
-      "impact": "",
-      "evidence": []
-    }
+  "endpoint": "*",
+  "category": "auth",
+  "documented": "the API key is sent as a query parameter: GET /v1/listings?api_key=IVY26-XXXXXXXXXXXX",
+  "actual": "the API rejects the key as a query parameter (400/401) and requires it as an X-API-Key request header instead, on every endpoint including /auth/login",
+  "how_found": "sent the first request exactly as documented and read the error body, which explicitly said to use the X-API-Key header",
+  "impact": "following the documented auth method fails on every single request; the frontend and any data-pulling script must use the header from the start",
+  "evidence": []
+},
+{
+  "endpoint": "/v1/listings",
+  "category": "auth",
+  "documented": "collection endpoints are authenticated by the API key alone; a user session (bearer token) is only needed for user-specific actions",
+  "actual": "GET /v1/listings (and other collection endpoints) return 401 with a bearer-token-required error unless a valid Authorization: Bearer token from /auth/login is also present, in addition to the API key",
+  "how_found": "called /v1/listings with only the API key header after logging in was skipped, and got a 401 explaining a bearer token was required",
+  "impact": "the app cannot browse listings without forcing a login first, contrary to what the docs imply about public browsing",
+  "evidence": []
+},
+{
+  "endpoint": "/auth/login",
+  "category": "auth",
+  "documented": "the response returns a field named token, valid for 86400 seconds (24 hours), and there is no refresh flow",
+  "actual": "the response returns access_token and refresh_token fields (no field named token), the access token expires in 900 seconds (15 minutes), and a refresh_url pointing to /auth/refresh is included",
+  "how_found": "logged the raw JSON response body directly and compared field names and expires_in against the documented example",
+  "impact": "a naive implementation using data.token gets undefined and can never authenticate; relying on a single 24-hour login also fails after 15 minutes, so session refresh must be implemented even though the docs say it's unnecessary",
+  "evidence": []
+},
+{
+  "endpoint": "/auth/refresh",
+  "category": "undocumented_endpoint",
+  "documented": "not mentioned anywhere in the reference",
+  "actual": "exists and is referenced by the login response's refresh_url field; accepts a refresh_token to obtain a new access token",
+  "how_found": "noticed refresh_url in the raw login response and called it directly",
+  "impact": "without discovering this, the only way to keep a session alive past 15 minutes is repeated full logins",
+  "evidence": []
+},
+{
+  "endpoint": "/v1/listings",
+  "category": "pagination",
+  "documented": "pagination uses page (1-indexed) and limit (default 20, max 200); responses are shaped { total, page, page_size, results }; to fetch every record, read total, divide by limit, and request that many pages",
+  "actual": "the page parameter is silently accepted but ignored — every value of page returns the same first records. The endpoint is actually paginated with offset and limit; responses are shaped { limit, offset, count, total, has_more, results }. The real maximum limit is 50, not 200",
+  "how_found": "requested page=1, page=2 and page=5 with identical limit and diffed the results — they were byte-for-byte identical. Then tested offset=0 vs offset=50 directly and got genuinely different records, confirming the real mechanism",
+  "impact": "following the documented pagination method as written can never retrieve more than the first 50 records; an early attempt at pulling the full dataset this way silently produced a dataset of only 50 unique listings duplicated many times over, which would have corrupted every downstream answer",
+  "evidence": []
+},
+{
+  "endpoint": "/v1/listings/{id}",
+  "category": "completeness",
+  "documented": "example listing object does not include an is_live field at all",
+  "actual": "every listing record includes an is_live boolean field, which is required to answer how many listings are active",
+  "how_found": "inspected the full field list actually returned versus every field named in the documented example object",
+  "impact": "a reader following only the documented schema would not know this field exists, even though Part 2's Question 3 depends on it",
+  "evidence": []
+},
+{
+  "endpoint": "/v1/projects/{id}",
+  "category": "consistency",
+  "documented": "total_listings is recomputed whenever a listing is added or withdrawn, so it always agrees with what GET /v1/listings?project_id=... returns",
+  "actual": "the majority of projects' total_listings disagree with the actual number of retrievable listings referencing that project_id, in both directions (sometimes documented higher, sometimes lower)",
+  "how_found": "counted, for every project_id, how many retrieved listings actually reference it, and compared that count against each project's total_listings field",
+  "impact": "the insights/analytics screen cannot trust total_listings at face value; it must be computed from the listings data directly",
+  "evidence": ["P30003", "P30004", "P30006", "P30007", "P30008", "P30009", "P30010", "P30011", "P30012", "P30013"]
+}
   ]
 }
