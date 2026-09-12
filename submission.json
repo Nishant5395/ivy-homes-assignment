@@ -1,0 +1,32 @@
+{
+  "api_key": "IVY26-A30D62A217D0",
+  "candidate": {
+    "name": "Nishant Anand",
+    "email": "nishant.20231067@mnnit.ac.in",
+    "repo_url": "https://github.com/Nishant5395/ivy-homes-assignment",
+    "demo_url": ""
+  },
+  "answers": {
+    "total_listing_records": 0,
+    "unique_properties": 0,
+    "active_listings": 0,
+    "corrupt_listing_ids": [],
+    "total_monthly_rent": 0,
+    "avg_price_per_sqft_2bhk": 0.0,
+    "costliest_project": { "project_id": "", "price_max_inr": 0 },
+    "listings_last_7_days": 0,
+    "fake_listing_ids": [],
+    "projects_with_wrong_listing_count": 0
+  },
+  "findings": [
+    {
+      "endpoint": "",
+      "category": "",
+      "documented": "",
+      "actual": "",
+      "how_found": "",
+      "impact": "",
+      "evidence": []
+    }
+  ]
+}
