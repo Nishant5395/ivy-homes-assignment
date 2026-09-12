@@ -72,16 +72,18 @@ async function refreshAccessToken(refreshToken) {
 }
 
 // ---- Step 2: generic paginator for any collection endpoint ----
+// NOTE: the documented `page`-based pagination does not work — the real API
+// uses `offset`-based pagination, and the real max `limit` is 50 (not the
+// documented 200). See scripts/debug-pagination.js for how this was found.
 async function fetchAll(endpointPath, tokens, extraParams = {}) {
   const allResults = [];
-  let page = 1;
-  const limit = 200; // max allowed per the docs — fewer requests overall
-  let total = null;
+  let offset = 0;
+  const limit = 50; // confirmed real max via debug-pagination.js
   let currentTokens = tokens;
 
   while (true) {
     const params = new URLSearchParams({
-      page: String(page),
+      offset: String(offset),
       limit: String(limit),
       ...extraParams,
     });
@@ -97,7 +99,7 @@ async function fetchAll(endpointPath, tokens, extraParams = {}) {
     // If the token expired mid-pagination, refresh (or re-login) and retry this page
     if (res.status === 401) {
       const body = await res.text();
-      console.warn(`Got 401 on ${endpointPath} page ${page} (${body}) — refreshing token...`);
+      console.warn(`Got 401 on ${endpointPath} offset ${offset} (${body}) — refreshing token...`);
       let refreshed = await refreshAccessToken(currentTokens.refreshToken);
       if (!refreshed) {
         refreshed = await login(); // fallback: full re-login
@@ -121,30 +123,25 @@ async function fetchAll(endpointPath, tokens, extraParams = {}) {
 
     const data = await res.json();
 
-    // Log the raw shape once, on the first page, so you can eyeball it
-    if (page === 1) {
+    if (offset === 0) {
       console.log(`\nFirst page of ${endpointPath} — response shape:`);
       console.log(Object.keys(data));
     }
 
-    total = data.total;
     const results = data.results || [];
     allResults.push(...results);
 
     console.log(
-      `${endpointPath} — page ${page}: got ${results.length} records (running total: ${allResults.length} / reported total: ${total})`
+      `${endpointPath} — offset ${offset}: got ${results.length} records (running total: ${allResults.length} / reported total: ${data.total} / has_more: ${data.has_more})`
     );
 
-    // Stop conditions: no more results, or we've collected >= reported total
-    if (results.length === 0) break;
-    if (total !== undefined && allResults.length >= total) break;
+    if (!data.has_more || results.length === 0) break;
 
-    page += 1;
+    offset += limit;
 
-    // Small safety valve in case pagination misbehaves and total is wrong —
-    // stop after a very high page count rather than looping forever.
-    if (page > 500) {
-      console.warn(`Stopped ${endpointPath} after 500 pages as a safety limit.`);
+    // Safety valve in case has_more never flips false
+    if (offset > 100000) {
+      console.warn(`Stopped ${endpointPath} after offset > 100000 as a safety limit.`);
       break;
     }
   }
