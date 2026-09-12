@@ -19,6 +19,16 @@
 ## What I checked that turned out to be fine
 page param silently ignored → discovered via direct comparison → confirmed real mechanism is offset-based
 
+total_listings first looked broken across the board, then turned out to correctly track is_live listings, and excluding corrupt records actually made the match worse, ruling that hypothesis out
+
+checked whether posted_at was secretly mislabeled IST instead of UTC; found no evidence — uniform Z formatting, and posting-hour distribution was flat under both interpretations (data is likely synthetic, no diurnal pattern to exploit either way)
+
+Checked phone number reuse → ruled out (almost every phone reused, not source-specific)
+Checked duplicate descriptions → ruled out (only 1 coincidental pair)
+Checked repeated coordinates → ruled out (zero hits)
+Checked description-vs-fields mismatches → ruled out (zero hits)
+Checked price-per-sqft outliers → found it, traced to one website, root-caused to shrunk carpet_area, refined detection from a derived-metric threshold to the actual underlying mechanism.
+
 ## What I'd do with two more days
 (TBD)
 
