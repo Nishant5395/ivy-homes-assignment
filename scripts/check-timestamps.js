@@ -1,14 +1,3 @@
-// scripts/check-timestamps.js
-//
-// Checks:
-// 1. What /health actually returns for the server clock.
-// 2. Whether posted_at values behave like genuine UTC, or are secretly
-//    already in IST but labeled with a "Z" (UTC) suffix.
-// 3. Computes the Question 8 window count under both interpretations, so you
-//    can see how much it matters.
-//
-// Run with: node scripts/check-timestamps.js
-
 import 'dotenv/config';
 import fs from 'fs';
 import path from 'path';

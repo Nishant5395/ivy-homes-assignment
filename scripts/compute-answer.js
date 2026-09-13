@@ -1,8 +1,3 @@
-// scripts/compute-answers.js
-//
-// Pulls together everything settled so far into concrete answers.
-// Run with: node scripts/compute-answers.js
-
 import fs from 'fs';
 import path from 'path';
 

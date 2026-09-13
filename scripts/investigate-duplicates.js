@@ -1,12 +1,3 @@
-// scripts/investigate-duplicates.js
-//
-// Question 2: how many DISTINCT properties do all listing records describe?
-// A property described by several records counts once. Likely mechanism:
-// the same physical unit cross-posted to multiple portals (100acres,
-// dwelling, squarelane, zerobroker) under different listing_ids.
-//
-// Run with: node scripts/investigate-duplicates.js
-
 import fs from 'fs';
 import path from 'path';
 

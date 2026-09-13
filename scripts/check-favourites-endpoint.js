@@ -1,10 +1,3 @@
-// scripts/check-favourites-endpoint.js
-//
-// /v1/favourites returned 404 in the frontend. Testing path variations to
-// find the real endpoint.
-//
-// Run with: node scripts/check-favourites-endpoint.js
-
 import 'dotenv/config';
 
 const BASE_URL = process.env.API_BASE_URL;

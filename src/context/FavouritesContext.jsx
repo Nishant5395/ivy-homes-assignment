@@ -1,4 +1,4 @@
-// src/context/FavouritesContext.jsx
+
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { api } from '../api/client';
 import { useAuth } from './AuthContext';

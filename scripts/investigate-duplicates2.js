@@ -1,12 +1,3 @@
-// scripts/investigate-duplicates2.js
-//
-// Looser duplicate check: same apartment_name + locality + bedroom (ignoring
-// floor and carpet_area, since those might be exactly the corrupted/faked
-// fields). Checks whether corrupt/fake records are secretly duplicates of an
-// already-genuine property.
-//
-// Run with: node scripts/investigate-duplicates2.js
-
 import fs from 'fs';
 import path from 'path';
 

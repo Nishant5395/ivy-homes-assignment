@@ -1,10 +1,4 @@
-// scripts/fetch-data.js
-//
-// Pulls the ENTIRE dataset (listings, rentals, projects) from the Ivy Homes API
-// and saves it locally as JSON files, so you can investigate offline without
-// re-hitting the API every time.
-//
-// Run with: node scripts/fetch-data.js
+
 
 import 'dotenv/config';
 import fs from 'fs';

@@ -1,10 +1,3 @@
-// scripts/debug-pagination.js
-//
-// Tests whether the `page` parameter on /v1/listings actually changes the
-// results, and whether the response's own `page`/`page_size` fields match
-// what we requested. Run this directly against the live API.
-//
-// Run with: node scripts/debug-pagination.js
 
 import 'dotenv/config';
 

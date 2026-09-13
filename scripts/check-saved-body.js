@@ -1,10 +1,3 @@
-// scripts/check-saved-body.js
-//
-// POST /v1/saved returned 422 with the documented body shape { "id": "..." }.
-// Testing alternate body shapes against a real listing_id.
-//
-// Run with: node scripts/check-saved-body.js
-
 import 'dotenv/config';
 import fs from 'fs';
 import path from 'path';

@@ -1,11 +1,3 @@
-// scripts/compute-q6.js
-//
-// Question 6: Across retrievable listing records where is_live is true and
-// bedroom is 2, leaving out the records in answers to Q4 (corrupt) and Q9
-// (fake): the mean of price divided by carpet area, in rupees per square
-// foot, to 2 decimals.
-//
-// Run with: node scripts/compute-q6.js
 
 import fs from 'fs';
 import path from 'path';

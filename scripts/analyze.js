@@ -1,10 +1,3 @@
-// scripts/analyze.js
-//
-// Loads the locally saved listings/rentals/projects and runs a series of
-// checks against them. Run this repeatedly as you add more checks —
-// it's fast since it's all local, no API calls.
-//
-// Run with: node scripts/analyze.js
 
 import fs from 'fs';
 import path from 'path';

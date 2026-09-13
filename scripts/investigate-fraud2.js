@@ -1,14 +1,3 @@
-// scripts/investigate-fraud2.js
-//
-// More fake-listing hypotheses after phone/description/coords didn't pan out:
-// 1. Exact duplicate numeric "fingerprints" (price+areas+bed/bath/floor) across
-//    different apartment names — a cloned template with only name/id changed.
-// 2. listing_url's numeric id vs listing_id's numeric suffix — should always
-//    match for a genuine record.
-// 3. Price-per-sqft outliers — suspiciously cheap listings designed as bait.
-//
-// Run with: node scripts/investigate-fraud2.js
-
 import fs from 'fs';
 import path from 'path';
 

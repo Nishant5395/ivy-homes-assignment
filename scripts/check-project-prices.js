@@ -1,11 +1,3 @@
-// scripts/check-project-prices.js
-//
-// costliest_project came back as price_max: 99.9 — clearly not raw rupees.
-// Checking whether this is an isolated units bug (like the 5 listings with
-// price in thousands) or systemic across projects.
-//
-// Run with: node scripts/check-project-prices.js
-
 import fs from 'fs';
 import path from 'path';
 

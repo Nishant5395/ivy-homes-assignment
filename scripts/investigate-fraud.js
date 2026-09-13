@@ -1,10 +1,3 @@
-// scripts/investigate-fraud.js
-//
-// Hunts for patterns that could indicate fake listings (Question 9):
-// reused phone numbers, duplicate descriptions, and repeated coordinates.
-//
-// Run with: node scripts/investigate-fraud.js
-
 import fs from 'fs';
 import path from 'path';
 

@@ -1,13 +1,3 @@
-// src/api/client.js
-//
-// Encodes everything we learned about how the API ACTUALLY behaves, as
-// opposed to what API_REFERENCE.md claims:
-// - API key goes in the X-API-Key header, not a query param
-// - Auth requires a bearer token from /auth/login even for GET collections
-// - Login returns access_token/refresh_token (15 min expiry), not `token`
-// - There IS a refresh flow (/auth/refresh), despite docs saying otherwise
-// - Pagination is offset/limit (max limit 50), not page/limit (max 200)
-
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const API_KEY = import.meta.env.VITE_API_KEY;
 

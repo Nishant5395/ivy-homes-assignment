@@ -1,8 +1,3 @@
-// scripts/investigate.js
-//
-// Deeper follow-up checks based on what analyze.js turned up.
-// Run with: node scripts/investigate.js
-
 import fs from 'fs';
 import path from 'path';
 

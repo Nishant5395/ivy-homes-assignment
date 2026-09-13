@@ -1,4 +1,3 @@
-// src/hooks/useAllRentals.js
 import { useState, useEffect, useRef } from 'react';
 import { fetchAllPages } from '../api/client';
 

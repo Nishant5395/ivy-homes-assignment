@@ -1,8 +1,3 @@
-// scripts/check-analytics-endpoint.js
-//
-// /v1/analytics/summary returned 404. Testing path variations.
-//
-// Run with: node scripts/check-analytics-endpoint.js
 
 import 'dotenv/config';
 

@@ -1,4 +1,3 @@
-// src/hooks/useAllProjects.js
 import { useState, useEffect, useRef } from 'react';
 import { fetchAllPages } from '../api/client';
 
