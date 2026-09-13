@@ -166,6 +166,24 @@
   "how_found": "sorted all listings by price-per-sqft and noticed every extreme high-end outlier was from one website; compared median price and median carpet_area of the suspect group against normal listings of the same bedroom count and found price was normal while area was uniformly shrunk to about a tenth of normal; re-detected using carpet_area ratio directly (robust to listings where price was independently corrupted) rather than the derived price-per-sqft",
   "impact": "these listings would display wildly unrealistic price-per-sqft figures on any insights screen and would appear as absurdly overpriced compared to genuinely comparable properties, since the defect is in the reported area, not the price",
   "evidence": ["MAG-3000006", "MAG-3000021", "MAG-3000031", "MAG-3000035", "MAG-3000063", "MAG-3000066", "MAG-3000077", "MAG-3000081", "MAG-3000083", "MAG-3000092", "MAG-3001311", "MAG-3001932", "MAG-3001986"]
+},
+{
+  "endpoint": "/v1/favourites",
+  "category": "missing_endpoint",
+  "documented": "GET/POST /v1/favourites and DELETE /v1/favourites/{id} manage a logged-in user's saved listings",
+  "actual": "no route exists at /v1/favourites (404 Not Found) or common variants (/v1/favorites, /v1/user/favourites, /v1/me/favourites, /v1/saved-listings); the real endpoint is /v1/saved, using the same GET/POST/DELETE {id} shape as documented",
+  "how_found": "the frontend's Saved page failed with a 404; tried the documented path and several plausible variants directly against the live API until one returned 200",
+  "impact": "a frontend built exactly to the documented path can never implement saved listings at all",
+  "evidence": []
+},
+{
+  "endpoint": "/v1/analytics/summary",
+  "category": "missing_endpoint",
+  "documented": "returns pre-computed city aggregates: total_listings, median_price, median_price_per_sqft, by_locality, by_bhk",
+  "actual": "no route exists at this path; 19 plausible alternative paths tested (/v1/analytics, /v1/summary, /v1/stats, /v1/insights, /v1/dashboard, /v1/overview, and more) all return the same 404 Not Found",
+  "how_found": "the insights screen's fetch failed with 404 on the documented path; systematically tried every plausible alternate path directly against the live API",
+  "impact": "no server-side aggregation is available at all; the insights screen has to compute every statistic client-side from the full listings/projects datasets",
+  "evidence": []
 }
   ]
 }

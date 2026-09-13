@@ -1,7 +1,7 @@
 // src/pages/Insights.jsx
 import { useState, useEffect, useMemo } from 'react';
 import { api } from '../api/client';
-import { useAllListings } from '../hooks/useAllListings';
+import { useAllListings } from '../hooks/UseAllListings.jsx';
 import { useAllProjects } from '../hooks/useAllProjects';
 
 // Settled from investigation — see README / findings.json for how these were found
