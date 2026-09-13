@@ -103,8 +103,8 @@
 // src/pages/Rentals.jsx
 import { useState, useMemo } from 'react';
 import { SlidersHorizontal } from 'lucide-react';
-import { useAllRentals } from '../hooks/useAllRentals';
-import RentalRow from '../components/RentalRow';
+import { useAllRentals } from '../hooks/useAllRentals.jsx';
+import RentalRow from '../components/RentalRow.jsx';
 
 const PAGE_SIZE = 20;
 

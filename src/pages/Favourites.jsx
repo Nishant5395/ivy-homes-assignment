@@ -27,8 +27,8 @@
 // src/pages/Favourites.jsx
 import { Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useFavourites } from '../context/FavouritesContext';
-import ListingRow from '../components/ListingRow';
+import { useFavourites } from '../context/FavouritesContext.jsx';
+import ListingRow from '../components/ListingRow.jsx';
 
 export default function Favourites() {
   const { favourites, loading, error } = useFavourites();

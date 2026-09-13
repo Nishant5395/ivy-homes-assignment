@@ -156,7 +156,7 @@
 // src/pages/Insights.jsx
 import { useState, useEffect, useMemo } from 'react';
 import { AlertTriangle, ShieldAlert } from 'lucide-react';
-import { api } from '../api/client';
+import { api } from '../api/client.js';
 import { useAllListings } from '../hooks/UseAllListings.jsx';
 import { useAllProjects } from '../hooks/useAllProjects.jsx';
 

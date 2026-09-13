@@ -38,7 +38,7 @@
 // src/components/SaveButton.jsx
 import { useState } from 'react';
 import { Heart } from 'lucide-react';
-import { useFavourites } from '../context/FavouritesContext';
+import { useFavourites } from '../context/FavouritesContext.jsx';
 
 export default function SaveButton({ listing, className = '' }) {
   const { isFavourite, toggleFavourite } = useFavourites();

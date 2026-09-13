@@ -133,8 +133,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, BedDouble, Bath, Ruler, Building2, Compass, CarFront, BadgeCheck } from 'lucide-react';
-import { api } from '../api/client';
-import SaveButton from '../components/SaveButton';
+import { api } from '../api/client.js';
+import SaveButton from '../components/SaveButton.jsx';
 
 function formatPrice(price) {
   if (price >= 10000000) return `₹${(price / 10000000).toFixed(2)} Cr`;
