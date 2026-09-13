@@ -157,8 +157,8 @@
 import { useState, useEffect, useMemo } from 'react';
 import { AlertTriangle, ShieldAlert } from 'lucide-react';
 import { api } from '../api/client';
-import { useAllListings } from '../hooks/useAllListings';
-import { useAllProjects } from '../hooks/useAllProjects';
+import { useAllListings } from '../hooks/UseAllListings.jsx';
+import { useAllProjects } from '../hooks/useAllProjects.jsx';
 
 const CORRUPT_IDS = new Set([
   '100-3000174', '100-3000236', '100-3000608', '100-3001067', '100-3001543',

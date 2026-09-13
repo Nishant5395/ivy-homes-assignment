@@ -530,8 +530,8 @@
 // src/pages/Listings.jsx
 import { useState, useMemo } from 'react';
 import { SlidersHorizontal } from 'lucide-react';
-import { useAllListings } from '../hooks/useAllListings';
-import ListingRow from '../components/ListingRow';
+import { useAllListings } from '../hooks/UseAllListings.jsx';
+import ListingRow from '../components/ListingRow.jsx';
 
 const PAGE_SIZE = 20;
 

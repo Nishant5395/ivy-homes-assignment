@@ -72,8 +72,8 @@
 // src/pages/Projects.jsx
 import { useMemo } from 'react';
 import { Building, MapPin } from 'lucide-react';
-import { useAllProjects } from '../hooks/useAllProjects';
-import { useAllListings } from '../hooks/useAllListings';
+import { useAllProjects } from '../hooks/useAllProjects.jsx';
+import { useAllListings } from '../hooks/UseAllListings.jsx';
 
 function formatCrore(value) {
   // project price_min/price_max are reported in crores, not plain rupees
