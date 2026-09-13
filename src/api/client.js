@@ -164,8 +164,8 @@ export const api = {
   rental: (id) => authedFetch(`/v1/rentals/${id}`),
   projects: (params) => fetchPage('/v1/projects', { params }),
   project: (id) => authedFetch(`/v1/projects/${id}`),
-  favourites: () => authedFetch('/v1/favourites'),
-  addFavourite: (id) => authedFetch('/v1/favourites', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) }),
-  removeFavourite: (id) => authedFetch(`/v1/favourites/${id}`, { method: 'DELETE' }),
+  favourites: () => authedFetch('/v1/saved'),
+  addFavourite: (id) => authedFetch('/v1/saved', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) }),
+  removeFavourite: (id) => authedFetch(`/v1/saved/${id}`, { method: 'DELETE' }),
   analyticsSummary: () => authedFetch('/v1/analytics/summary'),
 };
