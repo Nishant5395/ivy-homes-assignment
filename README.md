@@ -49,6 +49,8 @@ Built with the help of Claude (Anthropic), used throughout for: reasoning about 
 
 **Two endpoints from the frontend itself.** While building the app, `/v1/favourites` (documented) 404'd; the real endpoint is `/v1/saved`. `/v1/analytics/summary` (documented) 404'd with no working replacement found after testing 19 plausible alternate paths — it appears to simply not exist.
 
+A second, much larger units bug (Q7). Answering "which project has the highest price" returned price_max: 99.9 — obviously not a real rupee amount. Checking the full distribution showed this wasn't an isolated glitch: all 440 retrievable projects have price_min and price_max in the same roughly 1–100 range, consistent with every value being recorded in crores rather than plain rupees as documented. Multiplying by 10,000,000 brings every value into a sensible range (e.g. the costliest project becomes ≈₹99.9 crore, a plausible luxury development price).
+
 ## What I checked that turned out to be fine
 
 - **Zero/negative `floor` values initially looked like corrupt data** (136 records via a naive `floor <= 0` check). Breaking these down by `property_type` showed all 136 were `plot` listings — which legitimately have no floor number — and a stricter check for non-plot properties with `total_floors <= 0` came back with zero hits. `floor: 0` elsewhere is simply a normal ground floor.
