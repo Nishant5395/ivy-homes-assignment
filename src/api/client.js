@@ -165,7 +165,7 @@ export const api = {
   projects: (params) => fetchPage('/v1/projects', { params }),
   project: (id) => authedFetch(`/v1/projects/${id}`),
   favourites: () => authedFetch('/v1/saved'),
-  addFavourite: (id) => authedFetch('/v1/saved', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) }),
+  addFavourite: (id) => authedFetch('/v1/saved', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ listing_id: id }) }),
   removeFavourite: (id) => authedFetch(`/v1/saved/${id}`, { method: 'DELETE' }),
   analyticsSummary: () => authedFetch('/v1/analytics/summary'),
 };

@@ -197,7 +197,7 @@
       "endpoint": "/v1/favourites",
       "category": "missing_endpoint",
       "documented": "GET/POST /v1/favourites and DELETE /v1/favourites/{id} manage a logged-in user's saved listings",
-      "actual": "no route exists at /v1/favourites (404 Not Found) or common variants (/v1/favorites, /v1/user/favourites, /v1/me/favourites, /v1/saved-listings); the real endpoint is /v1/saved, using the same GET/POST/DELETE {id} shape as documented",
+      "actual": "no route exists at /v1/favourites (404) or common variants; the real endpoint is /v1/saved. It also expects a body of { \"listing_id\": \"...\" } rather than the documented { \"id\": \"...\" } — sending \"id\" returns 422 with an explicit 'listing_id: Field required' error",
       "how_found": "the frontend's Saved page failed with a 404; tried the documented path and several plausible variants directly against the live API until one returned 200",
       "impact": "a frontend built exactly to the documented path can never implement saved listings at all",
       "evidence": []
