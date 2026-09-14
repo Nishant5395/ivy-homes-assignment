@@ -1,5 +1,17 @@
 # Ivy Homes Assignment — Pune
 
+# Ivy Homes Assignment — Pune
+
+## Screenshots
+
+|  Login  |
+|---|---|
+|  ![Login screen](screenshots/login.png)| 
+
+| Insights | Listings |
+|---|---|
+| ![Insights screen showing discovered data quality issues](screenshots/insights.png) | ![Listings browse screen with filters](screenshots/listings.png) |
+
 A React (Vite) frontend on top of the Ivy Homes property API, built for the September 2026 internship assignment.
 
 ## How to run
