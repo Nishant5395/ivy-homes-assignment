@@ -1,16 +1,3 @@
-// src/lib/detectors.js
-//
-// Pure functions for the data-quality checks found during investigation.
-// Extracted here (instead of living inline in scripts/generate-submission.js
-// and src/components/RentalRow.jsx) so the exact logic behind each finding
-// can be unit tested independently of any live API call.
-
-/**
- * Q4 — a listing describes something that cannot exist:
- * negative price, floor exceeding the building's total floors, or a
- * carpet area larger than the super built-up area (structurally impossible,
- * since carpet area is always a subset of built-up area).
- */
 export function isCorrupt(listing) {
   return (
     listing.price <= 0 ||

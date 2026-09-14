@@ -1,19 +1,3 @@
-// scripts/generate-submission.js
-//
-// The single source of truth for this submission. Run this end-to-end and
-// every one of the ten Part 2 answers is derived fresh from a live API pull
-// — nothing here is hand-copied from an earlier run.
-//
-// Usage:
-//   node scripts/generate-submission.js
-//
-// Requires a .env file at the repo root with:
-//   API_BASE_URL, API_KEY, DEMO_EMAIL, DEMO_PASSWORD
-//
-// Reads the existing submission.json (if present) to preserve candidate
-// info and findings, and overwrites only the `answers` block with freshly
-// computed values.
-
 import 'dotenv/config';
 import fs from 'fs';
 import path from 'path';

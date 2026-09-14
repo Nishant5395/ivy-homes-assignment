@@ -1,4 +1,3 @@
-// src/components/RentalRow.jsx
 import { BedDouble, Bath, Ruler, MapPin } from 'lucide-react';
 import { correctedDeposit } from '../lib/detectors';
 

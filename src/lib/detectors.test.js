@@ -1,4 +1,3 @@
-// src/lib/detectors.test.js
 import { describe, it, expect } from 'vitest';
 import { isCorrupt, computeNormalMedianAreaByBhk, isFakeListing, correctedDeposit } from './detectors';
 
