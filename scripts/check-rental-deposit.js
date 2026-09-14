@@ -38,6 +38,3 @@ console.log('Corrected suspect deposit amounts (rupees) — median:', median(cor
 const byWebsite = {};
 for (const r of suspect) byWebsite[r.website] = (byWebsite[r.website] || 0) + 1;
 console.log('\nSuspect records by website:', byWebsite);
-
-
-

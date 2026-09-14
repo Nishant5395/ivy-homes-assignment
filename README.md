@@ -1,7 +1,5 @@
 # Ivy Homes Assignment — Pune
 
-# Ivy Homes Assignment — Pune
-
 ## Screenshots
 
 |  Login  |
@@ -30,7 +28,10 @@ VITE_API_KEY=<IVY26_your key>
 
 Log in with any of the three demo accounts (`demo1@ivy.homes`, `demo2@ivy.homes`, `demo3@ivy.homes`) using the password from your registration email.
 
+The entire submission — data pull through all ten final answers — is reproducible in one command: `node scripts/generate-submission.js`. It also runs a sensitivity check on the fake-listing detection threshold (stable across 0.15–0.25) and tests whether the carpet-area shrinkage is an exact 1/10 division (it isn't — consistently 9–11%, which is why the finding is worded as a range rather than an exact factor).
+
 The data-investigation scripts used to answer Part 2 live in `scripts/` and are run separately with Node (`node scripts/fetch-data.js`, etc.), reading credentials from a `.env` file (see each script's header comment). They pull the full dataset into a local `data/` folder for offline analysis.
+
 
 ## Tools used
 
@@ -61,7 +62,10 @@ Built with the help of Claude (Anthropic), used throughout for: reasoning about 
 
 **Two endpoints from the frontend itself.** While building the app, `/v1/favourites` (documented) 404'd; the real endpoint is `/v1/saved`. `/v1/analytics/summary` (documented) 404'd with no working replacement found after testing 19 plausible alternate paths — it appears to simply not exist.
 
-A second, much larger units bug (Q7). Answering "which project has the highest price" returned price_max: 99.9 — obviously not a real rupee amount. Checking the full distribution showed this wasn't an isolated glitch: all 440 retrievable projects have price_min and price_max in the same roughly 1–100 range, consistent with every value being recorded in crores rather than plain rupees as documented. Multiplying by 10,000,000 brings every value into a sensible range (e.g. the costliest project becomes ≈₹99.9 crore, a plausible luxury development price).
+**A second, much larger units bug (Q7). Answering** "which project has the highest price" returned price_max: 99.9 — obviously not a real rupee amount. Checking the full distribution showed this wasn't an isolated glitch: all 440 retrievable projects have price_min and price_max in the same roughly 1–100 range, consistent with every value being recorded in crores rather than plain rupees as documented. Multiplying by 10,000,000 brings every value into a sensible range (e.g. the costliest project becomes ≈₹99.9 crore, a plausible luxury development price).
+
+
+**Went beyond the required scope: investigated `/v1/rentals`, which no Part 2 question covers.** Structural checks (impossible floor/area/price values) came back completely clean, and the `magichomes` fraud pattern found in listings did **not** replicate in rentals — all five sources have nearly identical price-per-sqft distributions. But a deposit-to-rent ratio check surfaced a real bug: 307 rentals (21%), all from `zerobroker` and only `zerobroker`, store `deposit` as a small integer (2-10) matching "number of months' rent" rather than the documented rupee amount. Multiplying by monthly rent lands these records squarely in the same range as every other source's genuine deposits. Corrected in the frontend's rentals display.
 
 ## What I checked that turned out to be fine
 
@@ -71,6 +75,8 @@ A second, much larger units bug (Q7). Answering "which project has the highest p
 - **No exact duplicate "fingerprint" (price + both areas + bed/bath/floor) exists across different apartment names** — ruled out as a duplicate-listing mechanism.
 - **No genuine duplicate physical properties exist in this dataset (Question 2).** Tested three ways: an exact match on name+locality+bedroom+floor+carpet_area (zero duplicate groups); exact coordinate matches (found groups, but every one was legitimately different units — different floor, bedroom, and area — within the same building, which is completely normal); and a loose match ignoring floor/area (the only overlaps found were fake `magichomes` listings borrowing real building names at different floors, not true duplicates). `unique_properties` is simply equal to the total record count for this key.
 - **The `/health` endpoint's server clock is accurate and honestly offset** (`+05:30`, matching `Asia/Kolkata`, within seconds of real time) — no discrepancy there, exactly as the assignment's own example finding described.
+
+- **The `magichomes` fraud pattern found in listings does not appear in rentals.** Checked price-per-sqft by website across all rentals — all five sources (including `magichomes`) show nearly identical distributions (mean ~40-42, range ~22-60), with no source-specific outlier cluster. Structural impossibility checks (floor > total_floors, carpet_area > super_builtup_area, non-positive price/deposit) also came back completely clean across all 1,450 rentals.
 
 ## What I'd do with another two days
 
