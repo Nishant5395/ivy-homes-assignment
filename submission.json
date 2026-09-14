@@ -541,13 +541,24 @@
       "evidence": []
     },
     {
-  "endpoint": "/v1/rentals",
-  "category": "units",
-  "documented": "deposit is the security deposit in rupees",
-  "actual": "307 of 1450 rentals (21%), all from website=\"zerobroker\", have a deposit value between 2 and 10 — consistent with the number of months' rent rather than a rupee amount. Every other website's deposit values sit in the normal range (median ~1,86,000 rupees, matching a 2-10 month multiple of the monthly rent). Multiplying these 307 records' deposit by their monthly price lands them in the same range as normal deposits (corrected median ~1,65,600 rupees)",
-  "how_found": "checked the deposit-to-rent ratio across all rentals, which is not required by any of the ten Part 2 questions; 307 records had a ratio effectively at or near zero because their raw deposit value (2-10) was being compared directly against a five/six-figure monthly rent. Grouping those records by website showed all 307 came from a single source, and multiplying their deposit by price landed them in the same range as every other website's genuine deposit amounts",
-  "impact": "these 307 rentals would display a deposit of a few rupees instead of a realistic security deposit unless corrected — this affects Part 1's rentals screen directly even though no Part 2 question covers rentals",
-  "evidence": ["R3000004", "R3000009", "R3000012", "R3000015", "R3000020", "R3000027", "R3000028", "R3000037", "R3000042", "R3000043"]
-}
+      "endpoint": "/v1/rentals",
+      "category": "units",
+      "documented": "deposit is the security deposit in rupees",
+      "actual": "307 of 1450 rentals (21%), all from website=\"zerobroker\", have a deposit value between 2 and 10 — consistent with the number of months' rent rather than a rupee amount. Every other website's deposit values sit in the normal range (median ~1,86,000 rupees, matching a 2-10 month multiple of the monthly rent). Multiplying these 307 records' deposit by their monthly price lands them in the same range as normal deposits (corrected median ~1,65,600 rupees)",
+      "how_found": "checked the deposit-to-rent ratio across all rentals, which is not required by any of the ten Part 2 questions; 307 records had a ratio effectively at or near zero because their raw deposit value (2-10) was being compared directly against a five/six-figure monthly rent. Grouping those records by website showed all 307 came from a single source, and multiplying their deposit by price landed them in the same range as every other website's genuine deposit amounts",
+      "impact": "these 307 rentals would display a deposit of a few rupees instead of a realistic security deposit unless corrected — this affects Part 1's rentals screen directly even though no Part 2 question covers rentals",
+      "evidence": [
+        "R3000004",
+        "R3000009",
+        "R3000012",
+        "R3000015",
+        "R3000020",
+        "R3000027",
+        "R3000028",
+        "R3000037",
+        "R3000042",
+        "R3000043"
+      ]
+    }
   ]
 }
