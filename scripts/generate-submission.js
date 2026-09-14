@@ -17,6 +17,7 @@
 import 'dotenv/config';
 import fs from 'fs';
 import path from 'path';
+import { isCorrupt, computeNormalMedianAreaByBhk, isFakeListing } from '../src/lib/detectors.js';
 
 const BASE_URL = process.env.API_BASE_URL;
 const API_KEY = process.env.API_KEY;
@@ -121,27 +122,17 @@ async function main() {
   // Q4 — corrupt_listing_ids: negative price, floor > total_floors,
   // carpet_area > super_built_up_area (three equal, non-overlapping groups)
   // ---------------------------------------------------------------------
-  section('Q4 — CORRUPT LISTINGS');
-  const floorExceeds = listings.filter((l) => l.floor > l.total_floors).map((l) => l.listing_id);
-  const carpetExceeds = listings.filter((l) => l.carpet_area > l.super_built_up_area).map((l) => l.listing_id);
-  const negativePrice = listings.filter((l) => l.price <= 0).map((l) => l.listing_id);
-  const corruptIds = [...new Set([...floorExceeds, ...carpetExceeds, ...negativePrice])].sort();
-  console.log(`floor>total_floors: ${floorExceeds.length}, carpet>super: ${carpetExceeds.length}, price<=0: ${negativePrice.length}`);
-  console.log('Total corrupt (union, should have zero pairwise overlap):', corruptIds.length);
+ section('Q4 — CORRUPT LISTINGS');
+const corruptIds = listings.filter(isCorrupt).map((l) => l.listing_id).sort();
+console.log('Total corrupt (using tested isCorrupt()):', corruptIds.length);
 
   // ---------------------------------------------------------------------
   // Q9 — fake_listing_ids: magichomes carpet_area shrunk to ~1/10 of the
   // normal median for that bedroom count, detected via area ratio directly
   // (robust even when a record's price is independently corrupted)
   // ---------------------------------------------------------------------
-  section('Q9 — FAKE LISTINGS');
-  const normalMedianAreaByBhk = {};
-  for (const bhk of [0, 1, 2, 3, 4, 5]) {
-    const normalOfBhk = listings.filter((l) => l.bedroom === bhk && l.website !== 'magichomes' && l.carpet_area > 0);
-    if (normalOfBhk.length > 0) normalMedianAreaByBhk[bhk] = median(normalOfBhk.map((l) => l.carpet_area));
-  }
-  console.log('Normal median carpet_area by bedroom count:', normalMedianAreaByBhk);
-
+ const normalMedianAreaByBhk = computeNormalMedianAreaByBhk(listings, 'magichomes');
+console.log('Normal median carpet_area by bedroom count:', normalMedianAreaByBhk);
   // Sensitivity check: does the fake count stay stable across nearby
   // thresholds, confirming this is a real gap rather than an arbitrary cut?
   for (const t of [0.15, 0.18, 0.2, 0.22, 0.25]) {
@@ -152,13 +143,10 @@ async function main() {
     console.log(`  threshold ratio < ${t}: ${count} listings flagged`);
   }
 
-  const fakeIds = listings
-    .filter((l) => {
-      const m = normalMedianAreaByBhk[l.bedroom];
-      return m && l.carpet_area > 0 && l.carpet_area / m < 0.2;
-    })
-    .map((l) => l.listing_id)
-    .sort();
+ const fakeIds = listings
+  .filter((l) => isFakeListing(l, normalMedianAreaByBhk))
+  .map((l) => l.listing_id)
+  .sort();
   console.log('Final fake_listing_ids count (threshold 0.2):', fakeIds.length);
 
   // Sharper root-cause check: is it exactly carpet_area/10, rounded?
